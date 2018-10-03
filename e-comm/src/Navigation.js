@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import ImageSlider from './ImageSlider';
 import './Navigation.css'
+import Routes from './Routes';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -42,7 +43,7 @@ class Navigation extends React.Component {
               key="sub2"
               title={<span><Icon type="folder-open" /><span>Categories</span></span>}
             >
-              <Menu.Item key="6">Food</Menu.Item>
+              <Menu.Item key="6"><Link to="/Food">Food</Link></Menu.Item>
               <Menu.Item key="7">Clothing</Menu.Item>
               <Menu.Item key="8">Footwear</Menu.Item>
 
@@ -57,7 +58,8 @@ class Navigation extends React.Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <ImageSlider/>
+            {/* {<ImageSlider/>} */}
+            <Routes/>
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

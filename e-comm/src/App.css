@@ -83,3 +83,12 @@ body {
 a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover{
   color: white;
 } */
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected{
+  background: none;
+ 
+}
+span Link{
+  padding-top: 2%;
+  color: antiquewhite
+}

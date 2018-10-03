@@ -3,17 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter, Route } from 'react-router-dom';
-import SignUp from './SignUp';
-import Login from './Login';
-
 import registerServiceWorker from './registerServiceWorker';
+// import Navigation from './Navigation';
 
 ReactDOM.render( <BrowserRouter>
     <div>
        <Route path = "/" component = {App} />
-       {/* <Route path = "/App" component = {App} /> */}
-       <Route path = "/SignUp" component = {SignUp} />
-       <Route path = "/Login" component = {Login} />
      </div>
  </BrowserRouter>, document.getElementById('root'));
 
