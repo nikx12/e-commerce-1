@@ -14,7 +14,7 @@ class SignUp extends Component {
   render() {
     return (
       <div id="id01" className="modal" style={{display: this.props.signup? "block": "none"}}>
-      <form className="modal-content">
+      <form className="modal-content animate">
         <div className="container">
           <h1>Sign Up</h1>
           <p>Please fill in this form to create an account.</p>
@@ -36,7 +36,7 @@ class SignUp extends Component {
     
           <div className="clearfix">
             <button type="button" onClick={this.props.handleSignUp} className="cancelbtn">Cancel</button>
-            <button type="submit" className="signupbtn">Sign Up</button>
+            <button type="submit" >Sign Up</button>
           </div>
         </div>
       </form>

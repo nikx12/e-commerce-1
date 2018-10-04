@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Link, Redirect } from 'react-router-dom';  
+import { Link } from 'react-router-dom';  
 import Login from './Login';
 import SignUp from './SignUp';
-import Home from './Home';
+// import Home from './Home';
 import { Layout, Menu, Icon } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
@@ -30,22 +30,26 @@ class App extends Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
-  componentWillMount(){
-    var result=[]
-    fetch('https://demo1443058.mockable.io/codeproject_tutorial/api/contacts')
-    .then((Response) => Response.json())
-    .then((findresponse) =>{
-        result= findresponse.contacts
-    //console.log("in will mount ", result)    
-    this.setState({
-      myData: result
-     });
-  //   console.log(" mount " ,this.state.myData)
-    })    
+  // componentWillMount(){
+  //   var result=[]
+  //   fetch('https://randomuser.me/api/')
+  //   .then((Response) => Response.json())
+  //   .then((findresponse) =>{
+  //       result= findresponse
+  //   console.log("in will mount ", result)    
+  //   this.setState({
+  //     myData: result
+  //    });
+  // //   console.log(" mount " ,this.state.myData)
+  //   })
+    
+  //   .catch((err) =>{
+  //     console.log(err)
+  //   });
    // async await usage
    // console.log(" mounted " ,this.state.myData)
    
-  }
+  //}
   
   handleLogin=(usr,pw)=>{
   
@@ -110,7 +114,7 @@ class App extends Component {
          <Login  handleClick={this.handleClick} handleLogin={this.handleLogin} {...this.state}/>
         <SignUp handleClick={this.handleClick} handleSignUp={this.handleSignUp}  {...this.state}/> 
 
-        {/* NAvigation bar */}
+        {/* Navigation bar */}
          <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -122,6 +126,7 @@ class App extends Component {
             <Menu.Item key="1">
               <Icon type="pie-chart" />
               <span><Link to='/Home'>E-Comm</Link></span>
+              {/* try using force update */}
             </Menu.Item>
             <SubMenu
               key="sub1"

@@ -7,6 +7,7 @@ class Food extends React.Component{
                 <h1>Hi on Food Tab!!!!!!!!!!</h1>
             </div>
         )
+       
     }
 }
 export default Food;
