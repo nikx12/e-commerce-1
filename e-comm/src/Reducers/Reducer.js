@@ -11,10 +11,11 @@ function setLoginPending(isLoginPending){
     }
 }
 
-function setLoginSuccess(isLoginSuccess){
+function setLoginSuccess(isLoginSuccess,userData){
     return {
         type: LOGIN_SUCCESS,
-        isLoginSuccess
+        isLoginSuccess,
+        payload: userData
     }
 }
 
@@ -28,13 +29,13 @@ function setLoginError(loginError){
 export function login(username, password){
     return dispatch => {
         dispatch(setLoginPending(true));
-        dispatch(setLoginSuccess(false));
+        dispatch(setLoginSuccess(false, null));
         dispatch(setLoginError(null));
 
         sendLoginRequest(username,password)
-        .then(success =>{
+        .then(userData =>{
             dispatch(setLoginPending(false));
-            dispatch(setLoginSuccess(true));
+            dispatch(setLoginSuccess(true, userData));
 
         })
         .catch( err =>{
@@ -58,7 +59,8 @@ export default function reducer(state={
         case LOGIN_SUCCESS:
             return {
                 ...state,
-                isLoginSuccess: action.LOGIN_SUCCESS
+                isLoginSuccess: action.LOGIN_SUCCESS,
+                user: action.payload
             };
         case LOGIN_ERROR:
             return{
@@ -89,9 +91,9 @@ function sendLoginRequest(username, password){
     //       });
 
     return new Promise ((resolve, reject) => {
-       var f= JSON.parse(file);
-        console.log(f)
-        f.forEach((user) => {
+    //    var f= JSON.parse(file);
+        console.log(file.contacts)
+        file.contacts.forEach((user) => {
          //   var f= file.json()
         //    console.log(f)
             console.log(user.email+"*********************")

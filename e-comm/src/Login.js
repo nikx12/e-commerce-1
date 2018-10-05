@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom'
 import './Login.css';
 import Logo from './Logo.js'
 import { connect } from 'react-redux'
@@ -9,9 +10,14 @@ class Login extends Component {
         super(props);
         this.state ={};
     }
+    handleLoginClick = (e) =>{
+        // code for redirection
+        console.log(e);
+    }
     render() { 
         let {username, password}= this.state;
-        let {isLoginPending, isLoginSuccess, loginError} = this.props;   
+        let {isLoginPending, isLoginSuccess, loginError, user} = this.props;  
+         
     return (
         <div id="id01" className="modal" style={{display: this.props.clicked? "block": "none"}}>
             <form className="modalContent animate" onSubmit={this.onSubmit}>
@@ -26,7 +32,16 @@ class Login extends Component {
                     <label htmlFor="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required onChange={e => this.setState({password:e.target.value})}></input>
                     
-                    <button type="submit">Login</button>
+                    <button type="submit" onClick={()=>{this.handleLoginClick({
+                        if(isLoginSuccess){
+                            return(
+                               <Redirect to={{
+                                             pathname: '/Profile',
+                                             state: user 
+                                         }} push  />
+                            )
+                        }
+                    })}} >Login</button>
                     <label>
                     <input type="checkbox" name="remember" onChange={this.props.handleChange} value={this.props.checkedValue}/>Remember Me
                     </label>
@@ -47,6 +62,7 @@ class Login extends Component {
         e.preventDefault();
         let {username, password}= this.state;
         this.props.login(username, password);
+
     }
 }
 
@@ -54,7 +70,8 @@ const mapStateToProps = (state) =>{
     return {
         isLoginPending: state.isLoginPending,
         isLoginSuccess: state.isLoginSuccess,
-        loginError: state.loginError
+        loginError: state.loginError,
+        user: state.user
     };
 }
 

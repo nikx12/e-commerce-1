@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';  
+import { Link, Redirect } from 'react-router-dom';  
 import Login from './Login';
 import SignUp from './SignUp';
 // import Home from './Home';
@@ -8,6 +8,7 @@ import { Layout, Menu, Icon } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import Routes from './Routes';
+
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -99,18 +100,20 @@ class App extends Component {
     });
   }
   render() {
-  //   if (this.state.nextPage) {
+  // if (this.state.nextPage) {
   //     return (
   //         <Redirect to={{
   //           pathname: '/Profile',
   //           state: this.props.location.state && this.props.location.state.myData 
   //       }} push  />
-         
   //     );
-  // }
+  }
+  // this.props.history.push('/Food');
+ //console.log("@@@@@@@@@@@@@@##################%%%%%%%%%%%%", this.props.history)
     return (
      
       <div className="App">
+      <h1 onClick={this.setState({ nextPage: true  })}>LOGIN SUCCESS</h1>
          <Login  handleClick={this.handleClick} handleLogin={this.handleLogin} {...this.state}/>
         <SignUp handleClick={this.handleClick} handleSignUp={this.handleSignUp}  {...this.state}/> 
 
@@ -146,7 +149,7 @@ class App extends Component {
             </SubMenu>
             <Menu.Item key="9">
               <Icon type="file" />
-              <span>About</span>
+              <span><Link to="/About">About</Link></span>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -154,7 +157,6 @@ class App extends Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            
             <Routes/>
             </div>
           </Content>

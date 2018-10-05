@@ -8,15 +8,12 @@ import store from './Reducers/Store';
 
 import registerServiceWorker from './registerServiceWorker';
 
-// import ImageSlider from './ImageSlider';
-// import Navigation from './Navigation';
-
 ReactDOM.render(<Provider store={store}>
     <BrowserRouter>
         <div>
             <Route path = "/" component = {App} />
             {/* <Route path = "/" component = {ImageSlider} /> */}
-      </div>
+        </div>
  </BrowserRouter>
 </Provider> , document.getElementById('root'));
 

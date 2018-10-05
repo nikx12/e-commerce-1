@@ -1,6 +1,6 @@
 import React from 'react';
 // import ReactDOM from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Login from './Login';
 // import App from './App';
 import Food from './Food';
@@ -13,20 +13,15 @@ import About from './About';
 class Routes extends React.Component{
    render(){
        return(
-        <BrowserRouter>
-       <div>
+       <Switch>
           <Route path = "/Login" component = {Login} />  
-          <Route exact path = "/Home" component = {ImageSlider} />   
+          <Route exact path = "/" component = {ImageSlider} />   
+          {/* use render function for redirecting to authenticated */}
           <Route path = "/Profile" component = {Profile} /> 
           {/* <Route path = "/ImageSlider" component = {ImageSlider} />  */}
-          <Route exact path = "/Food" component = {Food} />   
+          <Route path = "/Food" component = {Food} />   
           <Route path = "/About" component = {About} />   
-          {/* <Redirect to={{
-            pathname: '/Food',
-           // state: this.props.location.state && this.props.location.state.myData 
-        }} push  /> */}
-        </div>
-    </BrowserRouter>
+        </Switch>
        )}
 }
 
