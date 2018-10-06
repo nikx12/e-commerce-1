@@ -9,15 +9,28 @@ class Login extends Component {
     constructor(props){
         super(props);
         this.state ={};
+        this.state.nextPage= this.props.nextPage
     }
-    handleLoginClick = (e) =>{
-        // code for redirection
-        console.log(e);
-    }
+    // handleLoginClick = (e) =>{
+    //     // code for redirection
+    //     console.log(this.state.nextPage)
+    //     this.setState({
+    //         nextPage: true
+    //     })
+    //     console.log(this.state.nextPage)
+       
+    // }
     render() { 
         let {username, password}= this.state;
         let {isLoginPending, isLoginSuccess, loginError, user} = this.props;  
-         
+         if(this.props.nextPage){
+             return(
+                <Redirect to={{
+                              pathname: '/Profile',
+                              state: user 
+                          }} push  />
+             )
+         }
     return (
         <div id="id01" className="modal" style={{display: this.props.clicked? "block": "none"}}>
             <form className="modalContent animate" onSubmit={this.onSubmit}>
@@ -32,16 +45,7 @@ class Login extends Component {
                     <label htmlFor="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required onChange={e => this.setState({password:e.target.value})}></input>
                     
-                    <button type="submit" onClick={()=>{this.handleLoginClick({
-                        if(isLoginSuccess){
-                            return(
-                               <Redirect to={{
-                                             pathname: '/Profile',
-                                             state: user 
-                                         }} push  />
-                            )
-                        }
-                    })}} >Login</button>
+                    <button type="submit" onClick={this.handleLoginClick} >Login</button>
                     <label>
                     <input type="checkbox" name="remember" onChange={this.props.handleChange} value={this.props.checkedValue}/>Remember Me
                     </label>
@@ -67,6 +71,7 @@ class Login extends Component {
 }
 
 const mapStateToProps = (state) =>{
+
     return {
         isLoginPending: state.isLoginPending,
         isLoginSuccess: state.isLoginSuccess,

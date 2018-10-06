@@ -1,5 +1,6 @@
 import React from 'react';
-import {withRouter } from 'react-router-dom';
+// import {withRouter } from 'react-router-dom';
+
 class Food extends React.Component{
     render(){
         return(
@@ -10,4 +11,4 @@ class Food extends React.Component{
        
     }
 }
-export default withRouter(Food);
+export default Food;

@@ -47,7 +47,8 @@ export function login(username, password){
 export default function reducer(state={
     isLoginPending: false,
     isLoginSuccess: false,
-    loginError: null
+    loginError: null,
+    closeModal: false
 }, action){
 
     switch(action.type){
@@ -59,8 +60,9 @@ export default function reducer(state={
         case LOGIN_SUCCESS:
             return {
                 ...state,
-                isLoginSuccess: action.LOGIN_SUCCESS,
-                user: action.payload
+                isLoginSuccess: action.isLoginSuccess,
+                user: action.payload,
+                closeModal: true
             };
         case LOGIN_ERROR:
             return{
@@ -91,15 +93,12 @@ function sendLoginRequest(username, password){
     //       });
 
     return new Promise ((resolve, reject) => {
-    //    var f= JSON.parse(file);
         console.log(file.contacts)
         file.contacts.forEach((user) => {
-         //   var f= file.json()
-        //    console.log(f)
             console.log(user.email+"*********************")
-                console.log(username+"&&&&&&&&&&&&&&&&&&")
+            console.log(username+"&&&&&&&&&&&&&&&&&&")
             if(username ===user.email){
-                
+                //try to use indexOf
                 if(password === user.password){
                     return resolve(user)
                 }

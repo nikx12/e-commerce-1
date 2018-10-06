@@ -5,11 +5,11 @@ class Profile extends Component{
     //     super(props);
     // }
     render(){
-        console.log(this.props.name)
+     //   console.log(this.props.location.user.name)
         return(
             <div>
                 <h1>Hi User</h1>
-                <p>Name: {this.props.location.state.name}</p>
+                {/* <p>Name: {this.props.location.state.name}</p> */}
                 {/* <p>Email ID: {this.props.user}</p>
                 <p>Address: {this.props.address}</p>
                 <p>Contact: {this.props.contact}</p>

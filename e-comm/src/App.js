@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Link, Redirect } from 'react-router-dom';  
+import { Link } from 'react-router-dom';  
 import Login from './Login';
 import SignUp from './SignUp';
 // import Home from './Home';
@@ -8,6 +8,8 @@ import { Layout, Menu, Icon } from 'antd';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import Routes from './Routes';
+import { connect } from 'react-redux'
+//import { login } from './Reducers/Reducer';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -52,33 +54,33 @@ class App extends Component {
    
   //}
   
-  handleLogin=(usr,pw)=>{
+  // handleLogin=(usr,pw)=>{
   
-    this.state.myData.forEach((user) => {
-      if(user.name === usr){
-        if(user.password=== pw){
-          this.setState({
-            nextPage: true
-          });
-          console.log("Sucess");
-          return true
-        }
-        else{
-          console.log("Error");
-          return false
-        }
-      }
-      else{
-        console.log("Invalid data")
-        return false
-      }
+  //   this.state.myData.forEach((user) => {
+  //     if(user.name === usr){
+  //       if(user.password=== pw){
+  //         this.setState({
+  //           nextPage: true
+  //         });
+  //         console.log("Sucess");
+  //         return true
+  //       }
+  //       else{
+  //         console.log("Error");
+  //         return false
+  //       }
+  //     }
+  //     else{
+  //       console.log("Invalid data")
+  //       return false
+  //     }
 
-    })
-    // console.log("user: ", user);
-    // console.log("pwd: ", pwd);
+  //   })
+  //   // console.log("user: ", user);
+  //   // console.log("pwd: ", pwd);
 
-    // console.log(usr+"  "+pw);
-  }
+  //   // console.log(usr+"  "+pw);
+  // }
   handleClick=(e)=>{
     this.setState({
       clicked:!this.state.clicked
@@ -100,21 +102,20 @@ class App extends Component {
     });
   }
   render() {
-  // if (this.state.nextPage) {
-  //     return (
-  //         <Redirect to={{
-  //           pathname: '/Profile',
-  //           state: this.props.location.state && this.props.location.state.myData 
-  //       }} push  />
-  //     );
-  }
-  // this.props.history.push('/Food');
- //console.log("@@@@@@@@@@@@@@##################%%%%%%%%%%%%", this.props.history)
+  //   if(isLoginSuccess){
+  //     return(
+  //        <Redirect to={{
+  //                      pathname: '/Profile',
+  //                      state: user 
+  //                  }} push  />
+  //     )
+  // }
+
     return (
      
       <div className="App">
-      <h1 onClick={this.setState({ nextPage: true  })}>LOGIN SUCCESS</h1>
-         <Login  handleClick={this.handleClick} handleLogin={this.handleLogin} {...this.state}/>
+      {/* <h1 onClick={this.setState({ nextPage: true  })}>LOGIN SUCCESS</h1> */}
+        <Login  handleClick={this.handleClick} handleLogin={this.handleLogin} {...this.state}/>
         <SignUp handleClick={this.handleClick} handleSignUp={this.handleSignUp}  {...this.state}/> 
 
         {/* Navigation bar */}
@@ -128,7 +129,7 @@ class App extends Component {
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
             <Menu.Item key="1">
               <Icon type="pie-chart" />
-              <span><Link to='/Home'>E-Comm</Link></span>
+              <span><Link to='/'>E-Comm</Link></span>
               {/* try using force update */}
             </Menu.Item>
             <SubMenu
@@ -143,8 +144,8 @@ class App extends Component {
               title={<span><Icon type="folder-open" /><span>Categories</span></span>}
             >
               <Menu.Item key="6"><Link to="/Food">Food</Link></Menu.Item>
-              <Menu.Item key="7">Clothing</Menu.Item>
-              <Menu.Item key="8">Footwear</Menu.Item>
+              <Menu.Item key="7"><Link to="/Clothing">Clothing</Link></Menu.Item>
+              <Menu.Item key="8"><Link to="/Footwear">Footwear</Link></Menu.Item>
 
             </SubMenu>
             <Menu.Item key="9">
@@ -157,7 +158,7 @@ class App extends Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Routes/>
+            <Routes isLoginSuccess={this.props.isLoginSuccess} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
@@ -170,4 +171,15 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps= (state) =>{
+  return {
+    isLoginSuccess: state.isLoginSuccess,
+    user: state.user
+  }
+}
+// const dispatchToProps = (dispatch) =>{
+//   return {
+
+//   }
+// }
+export default connect(mapStateToProps)(App);
