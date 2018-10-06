@@ -17,7 +17,6 @@ class Routes extends React.Component{
      if  (!this.props.isLoginSuccess) {
        return (<Route path="*" component= { ImageSlider }></Route>)
      }
-
        return(
        <Switch>
           <Route path = "/Login" component = {Login} />  
