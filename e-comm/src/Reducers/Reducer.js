@@ -93,6 +93,7 @@ function sendLoginRequest(username, password){
     //       });
 
     return new Promise ((resolve, reject) => {
+        var flag= false
         console.log(file.contacts)
         file.contacts.forEach((user) => {
             console.log(user.email+"*********************")
@@ -106,18 +107,15 @@ function sendLoginRequest(username, password){
                     return reject(new Error("Invalid password"))
                 }
             }
-            else{
-                return reject(new Error("Invalid username"))
+            else{// check with flags
+               flag= true
             }
+           
         })
-        .catch((err)=>{
-            console.log("Something is wrong")
-        });
-        // if(username==="" && password===""){
-        //     return resolve(true)
-        // }
-        // else{
-        //     return reject(new Error("Invalid email/password"))
-        // }
+        if(flag){
+            console.log(" value is "+flag)
+            return reject(new Error("Invalid username"))
+        }
+       
     })
 }

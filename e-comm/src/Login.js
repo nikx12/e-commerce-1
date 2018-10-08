@@ -66,7 +66,7 @@ class Login extends Component {
         e.preventDefault();
         let {username, password}= this.state;
         this.props.login(username, password);
-
+        //check for isLoginSuccess
     }
 }
 

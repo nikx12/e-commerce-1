@@ -87,6 +87,8 @@ class App extends Component {
     });
     
   }
+  // try to call componentdidmount so as to make a call to local storage or try to use JWT tokens
+  // try to check if data is there in local storage. if not then make a db call
    handleChange(e) {
       let fields = this.state.fields;
       fields[e.target.name] = e.target.value;
@@ -158,7 +160,7 @@ class App extends Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Routes isLoginSuccess={this.props.isLoginSuccess} />
+            <Routes isLoginSuccess={this.props.isLoginSuccess} clicked={this.props.clicked} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
