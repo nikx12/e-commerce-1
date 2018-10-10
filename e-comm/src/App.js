@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';  
+import { Link, withRouter } from 'react-router-dom';  
 import Login from './Login';
 import SignUp from './SignUp';
 // import Home from './Home';
@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'antd/dist/antd.css';
 import Routes from './Routes';
 import { connect } from 'react-redux'
-//import { login } from './Reducers/Reducer';
+import { loginClick } from './Reducers/Reducer';
 
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -33,91 +33,55 @@ class App extends Component {
     console.log(collapsed);
     this.setState({ collapsed });
   }
-  // componentWillMount(){
-  //   var result=[]
-  //   fetch('https://randomuser.me/api/')
-  //   .then((Response) => Response.json())
-  //   .then((findresponse) =>{
-  //       result= findresponse
-  //   console.log("in will mount ", result)    
-  //   this.setState({
-  //     myData: result
-  //    });
-  // //   console.log(" mount " ,this.state.myData)
-  //   })
-    
-  //   .catch((err) =>{
-  //     console.log(err)
-  //   });
-   // async await usage
-   // console.log(" mounted " ,this.state.myData)
-   
-  //}
   
-  // handleLogin=(usr,pw)=>{
-  
-  //   this.state.myData.forEach((user) => {
-  //     if(user.name === usr){
-  //       if(user.password=== pw){
-  //         this.setState({
-  //           nextPage: true
-  //         });
-  //         console.log("Sucess");
-  //         return true
-  //       }
-  //       else{
-  //         console.log("Error");
-  //         return false
-  //       }
-  //     }
-  //     else{
-  //       console.log("Invalid data")
-  //       return false
-  //     }
-
-  //   })
-  //   // console.log("user: ", user);
-  //   // console.log("pwd: ", pwd);
-
-  //   // console.log(usr+"  "+pw);
-  // }
-  handleClick=(e)=>{
-    this.setState({
-      clicked:!this.state.clicked
-    });
+  handleClick=()=>{
+    console.log("Handle clicked called ^^^^^^^^^^^^^^^^^")
+    this.props.loginClick();
+    // this.setState({
+    //   clicked:this.props.visibleModal
+    // });
     
   }
+  handleChange = (e)=> {
+    // let fields = this.state.fields;
+    // fields[e.target.name] = e.target.value;
+    this.setState({
+      checkedValue: this.state.checkedVal,
+      //fields
+    });
+
+  }
+handleSignUp=(e)=>{
+  this.setState({
+    signup:!this.state.signup
+  });
+}
+  componentWillMount(){
+   if(!localStorage.getItem("userData")===null){
+     console.log("Ok")
+   }
+   
+  //  else{
+  //    fetch('./file.json')
+  //    .then((response) => {
+  //     console.log(response)
+  //     //set local storage again?
+  //    })
+  // }
+  // console.log(localStorage.getItem("userData").value)
+  }
+ 
   // try to call componentdidmount so as to make a call to local storage or try to use JWT tokens
   // try to check if data is there in local storage. if not then make a db call
-   handleChange(e) {
-      let fields = this.state.fields;
-      fields[e.target.name] = e.target.value;
-      this.setState({
-        checkedValue: this.state.checkedVal,
-        fields
-      });
-
-    }
-  handleSignUp=(e)=>{
-    this.setState({
-      signup:!this.state.signup
-    });
-  }
+  
+  
   render() {
-  //   if(isLoginSuccess){
-  //     return(
-  //        <Redirect to={{
-  //                      pathname: '/Profile',
-  //                      state: user 
-  //                  }} push  />
-  //     )
-  // }
-
+    console.log(this.props.visibleModal, "MODAL")
     return (
      
       <div className="App">
       {/* <h1 onClick={this.setState({ nextPage: true  })}>LOGIN SUCCESS</h1> */}
-        <Login  handleClick={this.handleClick} handleLogin={this.handleLogin} {...this.state}/>
+        <Login  name="Login" {...this.state}/>
         <SignUp handleClick={this.handleClick} handleSignUp={this.handleSignUp}  {...this.state}/> 
 
         {/* Navigation bar */}
@@ -160,7 +124,7 @@ class App extends Component {
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '0 16px' }}>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Routes isLoginSuccess={this.props.isLoginSuccess} clicked={this.props.clicked} />
+            <Routes isLoginSuccess={this.props.isLoginSuccess} visibleModal={ this.props.isLoginSuccess? false: true} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
@@ -174,14 +138,20 @@ class App extends Component {
 }
 
 const mapStateToProps= (state) =>{
+ 
   return {
     isLoginSuccess: state.isLoginSuccess,
-    user: state.user
+    user: state.user,
+    visibleModal: state.visibleModal,
   }
 }
-// const dispatchToProps = (dispatch) =>{
-//   return {
 
-//   }
-// }
-export default connect(mapStateToProps)(App);
+const dispatchToProps = (dispatch) =>{
+  return {
+    loginClick: () => dispatch(loginClick())
+  }
+}
+
+export default withRouter(
+  connect(mapStateToProps, dispatchToProps)(App)
+);

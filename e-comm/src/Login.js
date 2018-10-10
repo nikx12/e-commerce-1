@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom'
+import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css';
 import Logo from './Logo.js'
 import { connect } from 'react-redux'
-import { login } from './Reducers/Reducer';
+import { login, cancelAction } from './Reducers/Reducer';
 
 class Login extends Component {
     constructor(props){
         super(props);
+        console.log("%%%%%%%%%%%%%%5", props)
         this.state ={};
         this.state.nextPage= this.props.nextPage
     }
@@ -20,9 +21,37 @@ class Login extends Component {
     //     console.log(this.state.nextPage)
        
     // }
+    componentDidMount(){
+     
+        const { user }= this.props;
+        console.log(user+"  Local user")
+        localStorage.setItem('somedata',"JSON.stringify(user)")   
+       // localStorage.setItem("userData", JSON.stringify(user));
+       // console.log(localStorage.getItem("userData"))
+    
+      }
+      handleClick =()=>{
+
+        this.props.cancelAction();
+      }
+    onSubmit =(e) =>{
+        e.preventDefault();
+       // this.props.handleClick;
+        let {username, password}= this.state;
+        this.props.login(username, password);
+        //check for isLoginSuccess
+     //   console.log("%%%%%%%%%%%%%%%%%", this.props.name)
+       // console.log("IS login success is: "+ this.props.isLoginSuccess)
+       
+    }
     render() { 
+      //  let privateVAlue=this.props.location.state?this.props.location.state.visibleModal: false
+     //   console.log(this.props.location.state, "***&&&&&&&&&&&&&&1111")
+        console.log(this.props.visibleModal, "***&&&&&&&&&&&&&&222")
+
         let {username, password}= this.state;
         let {isLoginPending, isLoginSuccess, loginError, user} = this.props;  
+        console.log(user+"  Local user")
          if(this.props.nextPage){
              return(
                 <Redirect to={{
@@ -32,7 +61,7 @@ class Login extends Component {
              )
          }
     return (
-        <div id="id01" className="modal" style={{display: this.props.clicked? "block": "none"}}>
+        <div id="id01" className="modal" style={{display: this.props.visibleModal ? "block": "none"}}>
             <form className="modalContent animate" onSubmit={this.onSubmit}>
                 {/* <div className="imgContainer"> */}
                    <Logo/> 
@@ -52,21 +81,17 @@ class Login extends Component {
                 </div>
             
                 <div className="container" style={{backgroundColor: "#f1f1f1"}}>
-                    <button type="button" onClick={this.props.handleClick} className="cancelbtn">Cancel</button>
+                    <button type="button" onClick={this.handleClick} className="cancelbtn">Cancel</button>
                     <span className="psw"><a href=""> Forgot password?</a></span>
                 </div>
-                {isLoginPending && <div>Please wait..</div>}
+                {isLoginPending && <div>Please wait..</div>
+                    // jquery.getElementById()
+                }
                 {isLoginSuccess && <div>Welcome Back !!</div>}
                 {loginError && <div>{loginError.message}</div>}
             </form>
         </div>
     );
-    }
-    onSubmit =(e) =>{
-        e.preventDefault();
-        let {username, password}= this.state;
-        this.props.login(username, password);
-        //check for isLoginSuccess
     }
 }
 
@@ -76,13 +101,17 @@ const mapStateToProps = (state) =>{
         isLoginPending: state.isLoginPending,
         isLoginSuccess: state.isLoginSuccess,
         loginError: state.loginError,
-        user: state.user
+        user: state.user,
+        visibleModal: state.visibleModal,
     };
 }
 
 const dispatchToProps = (dispatch) =>{
     return {
-        login: (username, password) => dispatch (login(username, password))
+        login: (username, password) => dispatch (login(username, password)),
+        cancelAction: () => dispatch(cancelAction())
     }
 }
-export default connect(mapStateToProps, dispatchToProps)(Login);
+export default withRouter(
+    connect(mapStateToProps, dispatchToProps)(Login)
+  );

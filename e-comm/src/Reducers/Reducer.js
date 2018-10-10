@@ -3,7 +3,9 @@ import file from '../file.json'
 const LOGIN_PENDING = 'LOGIN_PENDING';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_ERROR = 'LOGIN_ERROR';
-
+const BUTTON_CANCEL = 'BUTTON_CANCEL';
+const LOGINBUTTON_CLICK = 'LOGINBUTTON_CLICK'
+//actions
 function setLoginPending(isLoginPending){
     return {
         type: LOGIN_PENDING,
@@ -25,7 +27,31 @@ function setLoginError(loginError){
         loginError
     }
 }
-//action
+
+function setCancelButton(){
+    return {
+        type: BUTTON_CANCEL
+    }
+}
+
+function setLoginClick(){
+    return{
+        type: LOGINBUTTON_CLICK
+    }
+}
+
+export function cancelAction(){
+    return dispatch => {
+        dispatch(setCancelButton());
+    }
+}
+
+export function loginClick(){
+    return dispatch => {
+        dispatch(setLoginClick());
+    }
+}
+
 export function login(username, password){
     return dispatch => {
         dispatch(setLoginPending(true));
@@ -44,31 +70,46 @@ export function login(username, password){
         })
     };
 }
+
+
+// reducer function
 export default function reducer(state={
     isLoginPending: false,
     isLoginSuccess: false,
     loginError: null,
-    closeModal: false
+    visibleModal: false
 }, action){
 
     switch(action.type){
         case LOGIN_PENDING:
             return {
                 ...state,
-                isLoginPending: action.isLoginPending
+                isLoginPending: action.isLoginPending,
+                visibleModal: true
             };
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 isLoginSuccess: action.isLoginSuccess,
                 user: action.payload,
-                closeModal: true
+                visibleModal: false
             };
         case LOGIN_ERROR:
             return{
                 ...state,
-                loginError: action.loginError
+                loginError: action.loginError,
+                visibleModal: true
             };
+        case BUTTON_CANCEL:
+        return{
+            ...state,
+            visibleModal: false
+        };
+        case LOGINBUTTON_CLICK:
+        return{
+            ...state,
+            visibleModal: true
+        };
         default:
             return state;
     }
@@ -76,7 +117,7 @@ export default function reducer(state={
 
 function sendLoginRequest(username, password){
     //var result={}
-    console.log("##################", file)
+    //console.log("##################", file)
     // old method of fetching data from json file
     // fetch(file)
     // .then((response) => {
@@ -101,6 +142,7 @@ function sendLoginRequest(username, password){
             if(username ===user.email){
                 //try to use indexOf
                 if(password === user.password){
+                    console.log(user)
                     return resolve(user)
                 }
                 else{
@@ -113,7 +155,7 @@ function sendLoginRequest(username, password){
            
         })
         if(flag){
-            console.log(" value is "+flag)
+            console.log("In Reducer value is "+flag)
             return reject(new Error("Invalid username"))
         }
        
