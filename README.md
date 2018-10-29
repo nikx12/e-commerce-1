@@ -1,2 +1,2 @@
-# e-commerse
+# e-commerce applicaation
 Milestone
